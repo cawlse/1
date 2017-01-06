@@ -27,11 +27,10 @@ void _VertexStream::Create	()
 	bufferDesc.MiscFlags        = 0;
 
 	R_CHK					(HW.pDevice->CreateBuffer	( &bufferDesc, 0, &pVB ));
-	HW.stats_manager.increment_stats_vb						( pVB );
 #else	//	USE_DX10
 	R_CHK					(HW.pDevice->CreateVertexBuffer	( mSize, D3DUSAGE_WRITEONLY|D3DUSAGE_DYNAMIC, 0, D3DPOOL_DEFAULT, &pVB, NULL));
-	HW.stats_manager.increment_stats_vb						( pVB );
 #endif	//	USE_DX10
+	HW.stats_manager.increment_stats_vb(pVB);
 
 	R_ASSERT				(pVB);
 

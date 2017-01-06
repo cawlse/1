@@ -341,13 +341,6 @@ u32	CObjectList::net_Export			(NET_Packet* _Packet,	u32 start, u32 max_object_si
 			//Msg						("cl_export: %d '%s'",P->ID(),*P->cName());
 			P->net_Export			(Packet);
 
-#ifdef DEBUG
-			u32 size				= u32		(Packet.w_tell()-position)-sizeof(u8);
-			if				(size>=256)			{
-				Debug.fatal	(DEBUG_INFO,"Object [%s][%d] exceed network-data limit\n size=%d, Pend=%d, Pstart=%d",
-					*P->cName(), P->ID(), size, Packet.w_tell(), position);
-			}
-#endif
 			if (g_Dump_Export_Obj)
 			{
 				u32 size				= u32		(Packet.w_tell()-position)-sizeof(u8);

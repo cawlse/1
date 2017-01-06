@@ -33,9 +33,8 @@ CEngineAPI::~CEngineAPI()
 	if (vid_quality_token)
 	{
 		for( int i=0; vid_quality_token[i].name; i++ )
-		{
 			xr_free					(vid_quality_token[i].name);
-		}
+
 		xr_free						(vid_quality_token);
 		vid_quality_token			= NULL;
 	}

@@ -1,7 +1,6 @@
+#pragma once
 #include "stdafx.h"
 #include "xrCore.h"
-#ifndef	xrApi_included
-#define xrApi_included
 
 #ifndef _EDITOR
 class IRender_interface;
@@ -37,4 +36,3 @@ extern XRCORE_API CGameMtlLibrary *			PGMLib;
    class IRenderFactory;
     extern XRCORE_API IRenderFactory*	RenderFactory;
 #endif
-#endif	//	xrApi_included

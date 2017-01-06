@@ -1305,14 +1305,14 @@ void NvStripifier::FindAllStrips(NvStripInfoVec &allStrips,
 			
 			// build the first strip of the list
 			experiments[i][0]->Build(allEdgeInfos, allFaceInfos);
-			int experimentId = experiments[i][0]->m_experimentId;
+			int experimentId_ = experiments[i][0]->m_experimentId;
 			
 			NvStripInfo *stripIter = experiments[i][0];
 			NvStripStartInfo startInfo(NULL, NULL, false);
 			while (FindTraversal(allFaceInfos, allEdgeInfos, stripIter, startInfo)){
 				
 				// create the _new strip info
-				stripIter = xr_new<NvStripInfo> (startInfo, stripId++, experimentId);
+				stripIter = xr_new<NvStripInfo> (startInfo, stripId++, experimentId_);
 				
 				// build the next strip
 				stripIter->Build(allEdgeInfos, allFaceInfos);

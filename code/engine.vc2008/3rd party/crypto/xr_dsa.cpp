@@ -76,13 +76,16 @@ static void dsa_genparams_cb(int p, int n, void *arg)
 static unsigned char rnd_seed[] = "S.T.A.L.K.E.R. 4ever Rulezz !!!";
 void print_big_number(BIGNUM* big_num, u32 max_columns = 8)
 {
-	u8			bin_buff[xr_dsa::public_key_length];//public_key_length is the max
 	int			bin_size = 0;
 
 	string4096	result_buffer;
 	string16	tmp_buff;
 
-    std::memset(bin_buff, 0, sizeof(bin_buff));
+	u8			bin_buff[xr_dsa::public_key_length];//public_key_length is the max
+
+    //std::memset(bin_buff, 0, sizeof(bin_buff));
+	std::fill(bin_buff, bin_buff + xr_dsa::public_key_length, '\0');
+
 	BN_bn2bin	(big_num, bin_buff);
 	bin_size	= big_num->top * sizeof(unsigned long);
 
@@ -106,12 +109,12 @@ void xr_dsa::generate_params()
 	unsigned long	long_ret;
 	string256		random_string;
 	xr_sprintf					(random_string, "%I64d_%s", CPU::QPC(), rnd_seed);
-	//sprintf_s					(random_string, "%s", rnd_seed);
-	unsigned char*	rnd_seed	= static_cast<unsigned char*>((void*)random_string);
+
+	unsigned char*	rnd_seed_	= static_cast<unsigned char*>((void*)random_string);
 	unsigned int	rnd_ssize	= xr_strlen(random_string);
 	DSA* tmp_dsa_params	= DSA_generate_parameters(
 		key_bit_length,
-		rnd_seed,
+		rnd_seed_,
 		rnd_ssize,
 		&counter,
 		&long_ret,

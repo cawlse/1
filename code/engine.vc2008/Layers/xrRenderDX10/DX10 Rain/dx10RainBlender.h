@@ -24,7 +24,7 @@ public:
 	virtual		BOOL		canBeLMAPped()	{ return FALSE;	}
 
 	virtual		void		Compile			(CBlender_Compile& C);
-  virtual   void    SetDefine( LPCSTR Name, LPCSTR Definition );
+  virtual   void    SetDefine( LPCSTR Name_, LPCSTR Definition_ );
 
    LPCSTR Name;
    LPCSTR Definition;
