@@ -21,6 +21,8 @@ void 							InitLog		();
 void 							CloseLog	();
 void	XRCORE_API				FlushLog	();
 
+static string_path				lua_log_file_name;
+
 extern 	XRCORE_API	xr_vector<shared_str>*		LogFile;
 extern 	XRCORE_API	BOOL						LogExecCB;
 

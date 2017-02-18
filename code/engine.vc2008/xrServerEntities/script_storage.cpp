@@ -301,7 +301,7 @@ void CScriptStorage::reinit	()
 	luajit::open_lib	(lua(),	LUA_OSLIBNAME,		luaopen_os);
 	luajit::open_lib	(lua(),	LUA_MATHLIBNAME,	luaopen_math);
 	luajit::open_lib	(lua(),	LUA_STRLIBNAME,		luaopen_string);
-
+	luajit::open_lib	(lua(), LUA_BITLIBNAME,		luaopen_bit);
 #ifdef DEBUG
 	luajit::open_lib	(lua(),	LUA_DBLIBNAME,		luaopen_debug);
 #endif // #ifdef DEBUG
@@ -826,10 +826,7 @@ void CScriptStorage::print_error(lua_State *L, int iErrorCode)
 #ifdef DEBUG
 void CScriptStorage::flush_log()
 {
-	string_path			log_file_name;
-	strconcat           (sizeof(log_file_name),log_file_name,Core.ApplicationName,"_",Core.UserName,"_lua.log");
-	FS.update_path      (log_file_name,"$logs$",log_file_name);
-	m_output.save_to	(log_file_name);
+	m_output.save_to	(lua_log_file_name);
 }
 #endif // DEBUG
 

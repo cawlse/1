@@ -102,7 +102,7 @@ if exist luajit.dll.manifest^
 @echo === Successfully built LuaJIT for Windows/%LJARCH% ===
 
 @del ..\..\..\..\SDK\libraries\x86\%LJLIBNAME%
-@del ..\..\..\..\SDK\binaries\x86\%LJDLLNAME%
+@del ..\..\..\..\SDK\binaries\x86\%LJDLLNAME%	
 
 @copy %LJLIBNAME% ..\..\..\..\SDK\libraries\x86\
 @copy %LJDLLNAME% ..\..\..\..\SDK\binaries\x86\

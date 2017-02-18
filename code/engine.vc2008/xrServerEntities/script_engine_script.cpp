@@ -10,13 +10,9 @@
 #include "script_engine.h"
 #include "ai_space.h"
 #include "script_debugger.h"
+#include "../xrScripts/import_ses.hpp"
 
 using namespace luabind;
-
-void LuaLog(LPCSTR caMessage)
-{
-	Msg("%s", caMessage);
-}
 
 void ErrorLog(LPCSTR caMessage)
 {
@@ -69,30 +65,6 @@ CRenderDevice *get_device()
 }
 #endif
 
-int bit_and(int i, int j)
-{
-	return			(i & j);
-}
-
-int bit_or(int i, int j)
-{
-	return			(i | j);
-}
-
-int bit_xor(int i, int j)
-{
-	return			(i ^ j);
-}
-
-int bit_not(int i)
-{
-	return			(~i);
-}
-
-LPCSTR user_name()
-{
-	return			(Core.UserName);
-}
 
 void prefetch_module(LPCSTR file_name)
 {
@@ -174,12 +146,6 @@ IC	profile_timer_script	operator+	(const profile_timer_script &portion0, const p
 	return					(result);
 }
 
-// IC	std::ostream& operator<<(std::ostream &stream, profile_timer_script &timer)
-// {
-// 	stream					<< timer.time();
-// 	return					(stream);
-// }
-
 #ifdef XRGAME_EXPORTS
 ICF	u32	script_time_global	()	{ return Device.dwTimeGlobal; }
 ICF	u32	script_time_global_async	()	{ return Device.TimerAsync_MMT(); }
@@ -211,17 +177,13 @@ void CScriptEngine::script_register(lua_State *L)
 			.def("time",&profile_timer_script::time)
 	];
 
-	function	(L,	"log",								LuaLog);
+	function	(L,	"log",								import_ses::LuaLog);
 	function	(L,	"error_log",						ErrorLog);
 	function	(L,	"flush",							FlushLogs);
 	function	(L,	"prefetch",							prefetch_module);
 	function	(L,	"verify_if_thread_is_running",		verify_if_thread_is_running);
 	function	(L,	"editor",							is_editor);
-	function	(L,	"bit_and",							bit_and);
-	function	(L,	"bit_or",							bit_or);
-	function	(L,	"bit_xor",							bit_xor);
-	function	(L,	"bit_not",							bit_not);
-	function	(L, "user_name",						user_name);
+	function	(L, "user_name",						import_ses::user_name);
 	function	(L, "time_global",						script_time_global);
 	function	(L, "time_global_async",				script_time_global_async);
 #ifdef XRGAME_EXPORTS

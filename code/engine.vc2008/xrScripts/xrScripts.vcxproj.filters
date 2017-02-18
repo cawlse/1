@@ -43,6 +43,12 @@
     <Filter Include="Lua\xrEngine\LuaStudio">
       <UniqueIdentifier>{7112c23b-e166-4e17-8b7f-4a0805e497f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Import">
+      <UniqueIdentifier>{ed7cfdbb-0734-4a80-a164-aac979dc5440}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Import\LuaCore">
+      <UniqueIdentifier>{ab044b2c-b584-4848-9ec2-c76139638f5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="luabind\src\class.cpp">
@@ -119,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="lua_studio\lua_studio.cpp">
       <Filter>Lua\xrEngine\LuaStudio</Filter>
+    </ClCompile>
+    <ClCompile Include="import_ses.cpp">
+      <Filter>Import\LuaCore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -409,6 +418,9 @@
     </ClInclude>
     <ClInclude Include="lua_studio\lua_studio.h">
       <Filter>Lua\xrEngine\LuaStudio</Filter>
+    </ClInclude>
+    <ClInclude Include="import_ses.hpp">
+      <Filter>Import\LuaCore</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -36,6 +36,7 @@ void FlushLog			()
 		}
 	}
 }
+
 extern bool shared_str_initialized;
 void AddOne(const char *split)
 {
@@ -215,10 +216,14 @@ void InitLog()
 void CreateLog			(BOOL nl)
 {
     no_log				= nl;
-	strconcat			(sizeof(log_file_name), log_file_name, Core.ApplicationName, "_", Core.UserName, Core.UserDate, Core.UserTime, ".log");
+	strconcat(sizeof(log_file_name),	 log_file_name,		Core.ApplicationName, "_", Core.UserName, Core.UserDate, Core.UserTime, ".log");
+	strconcat(sizeof(lua_log_file_name), lua_log_file_name, Core.ApplicationName, "_", Core.UserName, "lua.log");
 
 	if (FS.path_exist("$logs$"))
-		FS.update_path	(logFName,"$logs$",log_file_name);
+	{
+		FS.update_path(logFName, "$logs$", log_file_name);
+		FS.update_path(lua_log_file_name, "$logs$", lua_log_file_name);
+	}
 	if (!no_log){
         IWriter *f		= FS.w_open	(logFName);
         if (f==NULL){
