@@ -110,11 +110,6 @@
     <ClCompile Include="compress.c" />
     <ClCompile Include="crc32.c" />
     <ClCompile Include="deflate.c" />
-    <ClCompile Include="example.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="gzio.c" />
     <ClCompile Include="infback.c" />
     <ClCompile Include="inffast.c" />

@@ -1,10 +1,9 @@
-#ifndef	PH_ISLAND_H
-#define PH_ISLAND_H
+#pragma once 
 
 #pragma warning(disable:4995)
 #pragma warning(disable:4267)
-#include "../3rd party/ode/ode/src/objects.h"
-#include "../3rd party/ode/ode/src/joint.h"
+#include "../3rd party/ode/src/objects.h"
+#include "../3rd party/ode/src/joint.h"
 #pragma warning(default:4995)
 #pragma warning(default:4267)
 
@@ -254,4 +253,3 @@ void			Repair();
 protected:
 private:
 };
-#endif

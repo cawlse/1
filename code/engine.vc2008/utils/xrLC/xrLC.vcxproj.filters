@@ -108,18 +108,6 @@
     <ClInclude Include="NV_Library\VertexCache.h">
       <Filter>External\NV_Strips</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\NvMender2003\convert.h">
-      <Filter>External\NV_Mender2003</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\NvMender2003\mender_input_output.h">
-      <Filter>External\NV_Mender2003</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\NvMender2003\NVMeshMender.h">
-      <Filter>External\NV_Mender2003</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\NvMender2003\remove_isolated_verts.h">
-      <Filter>External\NV_Mender2003</Filter>
-    </ClInclude>
     <ClInclude Include="NvMender2002\NVMeshMender.h">
       <Filter>External\NV_Mender2002</Filter>
     </ClInclude>
@@ -178,6 +166,18 @@
       <Filter>%2a%2a%2a COMPILER %2a%2a%2a\net</Filter>
     </ClInclude>
     <ClInclude Include="xrGameMaterials.h" />
+    <ClInclude Include="..\common\NvMender2003\remove_isolated_verts.h">
+      <Filter>External\NV_Mender2003</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\NvMender2003\convert.h">
+      <Filter>External\NV_Mender2003</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\NvMender2003\mender_input_output.h">
+      <Filter>External\NV_Mender2003</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\NvMender2003\NVMeshMender.h">
+      <Filter>External\NV_Mender2003</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StdAfx.cpp">
@@ -197,9 +197,6 @@
     </ClCompile>
     <ClCompile Include="NV_Library\VertexCache.cpp">
       <Filter>External\NV_Strips</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\common\NvMender2003\NVMeshMender.cpp">
-      <Filter>External\NV_Mender2003</Filter>
     </ClCompile>
     <ClCompile Include="NvMender2002\NVMeshMender.cpp">
       <Filter>External\NV_Mender2002</Filter>
@@ -362,6 +359,9 @@
     </ClCompile>
     <ClCompile Include="net.cpp">
       <Filter>%2a%2a%2a COMPILER %2a%2a%2a\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\NvMender2003\NVMeshMender.cpp">
+      <Filter>External\NV_Mender2003</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

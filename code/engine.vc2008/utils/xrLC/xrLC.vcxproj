@@ -249,6 +249,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\NvMender2003\convert.h" />
+    <ClInclude Include="..\common\NvMender2003\mender_input_output.h" />
+    <ClInclude Include="..\common\NvMender2003\NVMeshMender.h" />
+    <ClInclude Include="..\common\NvMender2003\remove_isolated_verts.h" />
     <ClInclude Include="defines.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="resource.h" />
@@ -266,10 +270,6 @@
     <ClInclude Include="NV_Library\NvTriStrip.h" />
     <ClInclude Include="NV_Library\NvTriStripObjects.h" />
     <ClInclude Include="NV_Library\VertexCache.h" />
-    <ClInclude Include="..\..\common\NvMender2003\convert.h" />
-    <ClInclude Include="..\..\common\NvMender2003\mender_input_output.h" />
-    <ClInclude Include="..\..\common\NvMender2003\NVMeshMender.h" />
-    <ClInclude Include="..\..\common\NvMender2003\remove_isolated_verts.h" />
     <ClInclude Include="NvMender2002\NVMeshMender.h" />
     <ClInclude Include="NvMender2002\nv_algebra.h" />
     <ClInclude Include="NvMender2002\nv_math.h" />
@@ -292,6 +292,7 @@
     <ClInclude Include="xrGameMaterials.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\NvMender2003\NVMeshMender.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">Create</PrecompiledHeader>
@@ -302,14 +303,6 @@
     <ClCompile Include="NV_Library\NvTriStrip.cpp" />
     <ClCompile Include="NV_Library\NvTriStripObjects.cpp" />
     <ClCompile Include="NV_Library\VertexCache.cpp" />
-    <ClCompile Include="..\..\common\NvMender2003\NVMeshMender.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
-    </ClCompile>
     <ClCompile Include="NvMender2002\NVMeshMender.cpp" />
     <ClCompile Include="NvMender2002\nv_algebra.cpp" />
     <ClCompile Include="xrDetailPatch.cpp">

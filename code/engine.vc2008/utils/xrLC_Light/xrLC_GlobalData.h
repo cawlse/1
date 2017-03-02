@@ -1,20 +1,18 @@
 #pragma once
 
 #include "../shader_xrlc.h"
+#include "../common/le_engine_communicate.hpp"
 #include "../../xrcore/xrPool.h"
-//#include "xrface.h"
+
 #include "xrfacedefs.h"
 #include "xrdeflectordefs.h"
 #include "b_build_texture.h"
 #include "base_lighting.h"
-#include "../../editors/LevelEditor/Engine/communicate.h"
-//#include "mu_model_face.h"
-//#include "mu_model_face_defs.h"
-//struct _face;
-//struct _vertex;
-namespace CDB{
-class MODEL;
-class CollectorPacked;
+
+namespace CDB 
+{
+	class MODEL;
+	class CollectorPacked;
 };
 class CLightmap;
 class xrMU_Model;

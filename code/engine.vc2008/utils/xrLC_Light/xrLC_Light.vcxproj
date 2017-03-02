@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\le_engine_communicate.hpp" />
     <ClInclude Include="_d3d_extensions.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="xrLC_Light.h" />
@@ -356,9 +357,6 @@
     <ClCompile Include="recalculation.cpp" />
     <ClCompile Include="xrLightDoNet.cpp" />
     <ClCompile Include="..\..\xrEngine\xrLoadSurface.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\xrCDB\xrCDB.vcxproj">

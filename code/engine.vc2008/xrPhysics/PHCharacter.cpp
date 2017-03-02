@@ -10,30 +10,30 @@
 #include "../xrEngine/gamemtllib.h"
 
 #include "tri-colliderKNoOPC\__aabb_tri.h"
-#include "../3rd party/ode/ode/src/util.h"
+#include "../3rd party/ode/src/util.h"
 #include "ph_valid_ode.h"
 #include "Phaicharacter.h"
 #include "phactorcharacter.h"
 
-CPHCharacter::CPHCharacter(void):
-  CPHDisablingTranslational()
+CPHCharacter::CPHCharacter(void) :
+	CPHDisablingTranslational()
 {
 
-m_params.acceleration			=0.001f					;
-m_params.velocity				=0.0001f				;
-m_body							=NULL					;
-m_safe_velocity[0]				=0.f					;
-m_safe_velocity[1]				=0.f					;	
-m_safe_velocity[2]				=0.f					;
-m_mean_y		  				=0.f					;	
-m_new_restriction_type=m_restriction_type				=rtNone					;
-b_actor_movable					=true					;
-p_lastMaterialIDX				=&lastMaterialIDX		;
-lastMaterialIDX					=GAMEMTL_NONE_IDX		;
-injuriousMaterialIDX			=GAMEMTL_NONE_IDX		;
-m_creation_step					=u64(-1)				;
-b_in_touch_resrtrictor			=false					;
-m_current_object_radius			=-1.f					;
+	m_params.acceleration = 0.001f;
+	m_params.velocity = 0.0001f;
+	m_body = NULL;
+	m_safe_velocity[0] = 0.f;
+	m_safe_velocity[1] = 0.f;
+	m_safe_velocity[2] = 0.f;
+	m_mean_y = 0.f;
+	m_new_restriction_type = m_restriction_type = rtNone;
+	b_actor_movable = true;
+	p_lastMaterialIDX = &lastMaterialIDX;
+	lastMaterialIDX = GAMEMTL_NONE_IDX;
+	injuriousMaterialIDX = GAMEMTL_NONE_IDX;
+	m_creation_step = u64(-1);
+	b_in_touch_resrtrictor = false;
+	m_current_object_radius = -1.f;
 }
 
 CPHCharacter::~CPHCharacter(void)

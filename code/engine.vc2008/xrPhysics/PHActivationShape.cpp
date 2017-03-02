@@ -11,7 +11,7 @@
 #include "../xrEngine/gamemtllib.h"
 //#include "Level.h"
 #include "PHWorld.h"
-#include "../3rd party/ode/ode/src/util.h"
+#include "../3rd party/ode/src/util.h"
 
 #ifdef DEBUG
 #	include "debug_output.h"
@@ -24,13 +24,6 @@ static	float max_depth			=0.f;
 static	float friction_factor	=0.f;
 static	const float cfm				=1.e-10f;
 static	const float erp				=1.f;
-/*
-static	const float static_cfm				=1.e-10f;
-static	const float static_erp				=1.f;
-
-static	const float dynamic_cfm				= 1.f;//static_cfm;//
-static	const float dynamic_erp				= 1.f / 1000.f;//static_erp;//
-*/
 
 #ifdef DEBUG
 #define	CHECK_POS(pos,msg,br)			if (!valid_pos(pos,phBoundaries)){Msg("pos:%f,%f,%f",pos.x,pos.y,pos.z);Msg(msg);VERIFY(!br);}

@@ -324,6 +324,7 @@
       <Filter>do_light</Filter>
     </ClInclude>
     <ClInclude Include="..\Shader_xrLC.h" />
+    <ClInclude Include="..\common\le_engine_communicate.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -581,8 +582,5 @@
     <ClCompile Include="..\..\xrEngine\xrLoadSurface.cpp">
       <Filter>do_light</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ReadMe.txt" />
   </ItemGroup>
 </Project>

@@ -8,22 +8,19 @@
 #include "matrix_utils.h"
 #include "IPhysicsShellHolder.h"
 #include "ph_valid_ode.h"
-//#include "game_object_space.h"
-//#include "../Include/xrRender/Kinematics.h"
 #include "../Include/xrRender/Kinematics.h"
 #include "../Include/xrRender/KinematicsAnimated.h"
-#include "../3rd party/ode/ode/src/util.h"
+#include "../3rd party/ode/src/util.h"
 
 #ifdef DEBUG
 #	include "debug_output.h"
-//#	include "objectdump.h"
 #endif // DEBUG
 
 ///////////////////////////////////////////////////////////////
 #pragma warning(disable:4995)
 #pragma warning(disable:4267)
 
-#include "../3rd party/ode/ode/src/collision_kernel.h"
+#include "../3rd party/ode/src/collision_kernel.h"
 
 
 #pragma warning(default:4267)
