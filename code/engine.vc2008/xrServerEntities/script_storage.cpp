@@ -39,96 +39,17 @@ setfenv(1, this) \
 
 LPCSTR	file_header = 0;
 
-#ifndef ENGINE_BUILD
+#if !defined(ENGINE_BUILD) && defined(XRGAME_EXPORTS)
 #	include "script_engine.h"
 #	include "ai_space.h"
+#	include "ai_debug.h"
 #else
 #	define NO_XRGAME_SCRIPT_ENGINE
-#endif
-
-#ifndef XRGAME_EXPORTS
-#	define NO_XRGAME_SCRIPT_ENGINE
-#endif
-
-#ifndef NO_XRGAME_SCRIPT_ENGINE
-#	include "ai_debug.h"
 #endif
 
 #ifdef USE_DEBUGGER
 #	include "script_debugger.h"
 #endif
-
-#ifndef PURE_ALLOC
-//#	ifndef USE_MEMORY_MONITOR
-#		define USE_DL_ALLOCATOR
-//#	endif // USE_MEMORY_MONITOR
-#endif // PURE_ALLOC
-
-#ifndef USE_DL_ALLOCATOR
-static void *lua_alloc		(void *ud, void *ptr, size_t osize, size_t nsize) {
-  (void)ud;
-  (void)osize;
-  if (nsize == 0) {
-    xr_free	(ptr);
-    return	NULL;
-  }
-  else
-#ifdef DEBUG_MEMORY_NAME
-    return Memory.mem_realloc		(ptr, nsize, "LUA");
-#else // DEBUG_MEMORY_MANAGER
-    return Memory.mem_realloc		(ptr, nsize);
-#endif // DEBUG_MEMORY_MANAGER
-}
-#else // USE_DL_ALLOCATOR
-
-#include "../xrCore/memory_allocator_options.h"
-
-#ifdef USE_ARENA_ALLOCATOR
-static const u32			s_arena_size = 96*1024*1024;
-static char					s_fake_array[s_arena_size];
-static doug_lea_allocator	s_allocator( s_fake_array, s_arena_size, "lua" );
-#else // #ifdef USE_ARENA_ALLOCATOR
-static doug_lea_allocator	s_allocator( 0, 0, "lua" );
-#endif // #ifdef USE_ARENA_ALLOCATOR
-
-static void *lua_alloc		(void *ud, void *ptr, size_t osize, size_t nsize) {
-#ifndef USE_MEMORY_MONITOR
-	(void)ud;
-	(void)osize;
-	if ( !nsize )	{
-		s_allocator.free_impl	(ptr);
-		return					0;
-	}
-
-	if ( !ptr )
-		return					s_allocator.malloc_impl((u32)nsize);
-
-	return						s_allocator.realloc_impl(ptr, (u32)nsize);
-#else // #ifndef USE_MEMORY_MONITOR
-	if ( !nsize )	{
-		memory_monitor::monitor_free(ptr);
-		s_allocator.free_impl		(ptr);
-		return						NULL;
-	}
-
-	if ( !ptr ) {
-		void* const result			= s_allocator.malloc_impl((u32)nsize);
-		memory_monitor::monitor_alloc (result,nsize,"LUA");
-		return						result;
-	}
-
-	memory_monitor::monitor_free	(ptr);
-	void* const result				= s_allocator.realloc_impl(ptr, (u32)nsize);
-	memory_monitor::monitor_alloc	(result,nsize,"LUA");
-	return							result;
-#endif // #ifndef USE_MEMORY_MONITOR
-}
-
-u32 game_lua_memory_usage	()
-{
-	return					(s_allocator.get_allocated_size());
-}
-#endif // USE_DL_ALLOCATOR
 
 static LPVOID __cdecl luabind_allocator	(
 		luabind::memory_allocation_function_parameter const,
@@ -277,12 +198,9 @@ void CScriptStorage::reinit	()
 	if (m_virtual_machine)
 		lua_close			(m_virtual_machine);
 
-	m_virtual_machine		= lua_newstate(lua_alloc, NULL);
-
-	if (!m_virtual_machine) {
-		Msg					("! ERROR : Cannot initialize script virtual machine!");
-		return;
-	}
+	m_virtual_machine		= luaL_newstate(); 
+	//FX: Не запустилась машинка -- двиг упал, так удобнее, имхо
+	R_ASSERT(m_virtual_machine, "Cannot initialize script virtual machine!");
 
 	// initialize lua standard library functions 
 	struct luajit {
