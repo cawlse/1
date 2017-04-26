@@ -121,7 +121,8 @@
     <CustomBuildAfterTargets>Build</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">
-    <CustomBuildAfterTargets>Build</CustomBuildAfterTargets>
+    <CustomBuildAfterTargets>
+    </CustomBuildAfterTargets>
     <OutDir>$(SolutionDir)..\..\binaries64\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\..\intermediate64\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -382,8 +383,10 @@
       <AdditionalManifestFiles>as-invoker-manifest-part.xml;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <CustomBuildStep>
-      <Command>copy /Y "$(ProjectDir)..\..\sdk\binaries\x86\lua.JIT.2.0.4.dll" "$(OutDir)lua.JIT.2.0.4.dll"</Command>
-      <Outputs>$(OutDir)lua.JIT.2.0.4.dll</Outputs>
+      <Command>
+      </Command>
+      <Outputs>
+      </Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
