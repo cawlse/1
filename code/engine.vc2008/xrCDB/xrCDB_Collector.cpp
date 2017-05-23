@@ -17,7 +17,7 @@ namespace CDB
 
 	void	Collector::add_face_D	(
 		const Fvector& v0, const Fvector& v1, const Fvector& v2,	// vertices
-		u32 dummy								// misc
+		u_ptr dummy								// misc
 		)
 	{
 		TRI T;
@@ -62,10 +62,7 @@ namespace CDB
 		faces.push_back(T);
 	}
 
-	void	Collector::add_face_packed_D	(
-		const Fvector& v0, const Fvector& v1, const Fvector& v2,	// vertices
-		u32	dummy,	float eps
-		)
+	void Collector::add_face_packed_D(const Fvector& v0, const Fvector& v1, const Fvector& v2, u_ptr dummy, float eps)
 	{
 		TRI T;
 		T.verts	[0] = VPack(v0,eps);
