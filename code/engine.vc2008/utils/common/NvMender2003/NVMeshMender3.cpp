@@ -212,9 +212,9 @@ void MeshMender::ProcessNormals(TriangleList& possibleNeighbors,
 {
 		NeighborGroupList neighborGroups;//a fresh group for each pass
 
-
+		unsigned int i;
 		//reset each triangle to prepare for smoothing group building
-		for( unsigned int i = 0; i < possibleNeighbors.size(); ++i )
+		for(i = 0; i < possibleNeighbors.size(); ++i )
 		{
 			m_Triangles[ possibleNeighbors[i] ].Reset();
 		}
@@ -312,8 +312,9 @@ void MeshMender::ProcessTangents(TriangleList& possibleNeighbors,
 		NeighborGroupList neighborGroups;//a fresh group for each pass
 
 
+		unsigned int i;
 		//reset each triangle to prepare for smoothing group building
-		for(unsigned int i =0; i < possibleNeighbors.size(); ++i)
+		for(i = 0; i < possibleNeighbors.size(); ++i)
 		{
 			m_Triangles[ possibleNeighbors[i] ].Reset();
 		}
@@ -402,97 +403,95 @@ void MeshMender::ProcessTangents(TriangleList& possibleNeighbors,
 
 
 void MeshMender::ProcessBinormals(TriangleList& possibleNeighbors,
-								xr_vector< Vertex >&    theVerts,
-								xr_vector< unsigned int >& mappingNewToOldVert,
-								D3DXVECTOR3 workingPosition)
+	xr_vector< Vertex >&    theVerts,
+	xr_vector< unsigned int >& mappingNewToOldVert,
+	D3DXVECTOR3 workingPosition)
 {
-		NeighborGroupList neighborGroups;//a fresh group for each pass
+	NeighborGroupList neighborGroups;//a fresh group for each pass
 
 
-		//reset each triangle to prepare for smoothing group building
-		for(unsigned int i =0; i < possibleNeighbors.size(); ++i )
+	unsigned int i;
+	//reset each triangle to prepare for smoothing group building
+	for (i = 0; i < possibleNeighbors.size(); ++i)
+	{
+		m_Triangles[possibleNeighbors[i]].Reset();
+	}
+
+	//now start building groups
+	CanSmoothBinormalsChecker canSmoothBinormalsChecker;
+	for (i = 0; i < possibleNeighbors.size(); ++i)
+	{
+		Triangle* currTri = &(m_Triangles[possibleNeighbors[i]]);
+		assert(currTri);
+		if (!currTri->handled)
 		{
-			m_Triangles[ possibleNeighbors[i] ].Reset();
+			BuildGroups(currTri, possibleNeighbors,
+				neighborGroups, theVerts,
+				&canSmoothBinormalsChecker, MinBinormalsCreaseCosAngle);
 		}
+	}
 
-		//now start building groups
-		CanSmoothBinormalsChecker canSmoothBinormalsChecker;
-		for(i =0; i < possibleNeighbors.size(); ++i )
+
+	xr_vector<D3DXVECTOR3> groupBinormalVectors;
+
+
+	for (i = 0; i < neighborGroups.size(); ++i)
+	{
+		D3DXVECTOR3 gbinormal(0, 0, 0);
+		for (unsigned int t = 0; t < neighborGroups[i].size(); ++t)//for each triangle in the group, 
 		{
-			Triangle* currTri = &(m_Triangles[ possibleNeighbors[i] ]);
-			assert(currTri);
-			if(!currTri->handled)
-			{
-				BuildGroups(currTri,possibleNeighbors, 
-							neighborGroups, theVerts,
-							&canSmoothBinormalsChecker ,MinBinormalsCreaseCosAngle );
-			}
+			TriID tID = neighborGroups[i][t];
+			gbinormal += m_Triangles[tID].binormal;
 		}
+		Vec3Normalize(&gbinormal, &gbinormal);
+		groupBinormalVectors.push_back(gbinormal);
+	}
 
+	//next step, ensure that triangles in different groups are not
+	//sharing vertices. and give the shared vertex their new group vector
+	xr_set<size_t> otherGroupsIndices;
+	for (i = 0; i < neighborGroups.size(); ++i)
+	{
+		TriangleList& curGroup = neighborGroups[i];
+		xr_set<size_t> thisGroupIndices;
 
-		xr_vector<D3DXVECTOR3> groupBinormalVectors;
-	
-		
-		for(i=0; i<neighborGroups.size(); ++i)
+		for (size_t t = 0; t < curGroup.size(); ++t) //for each tri
 		{
-			D3DXVECTOR3 gbinormal(0,0,0);
-			for(unsigned int t = 0; t < neighborGroups[i].size(); ++t)//for each triangle in the group, 
+			TriID tID = curGroup[t];
+			for (size_t indx = 0; indx < 3; ++indx)//for each vert in that tri
 			{
-				TriID tID = neighborGroups[i][t];
-				gbinormal+=  m_Triangles[tID].binormal;
-			}
-			Vec3Normalize( &gbinormal, &gbinormal );
-			groupBinormalVectors.push_back(gbinormal);
-		}
-		
-		//next step, ensure that triangles in different groups are not
-		//sharing vertices. and give the shared vertex their new group vector
-		xr_set<size_t> otherGroupsIndices;
-		for( i = 0; i < neighborGroups.size(); ++i )
-		{
-			TriangleList& curGroup = neighborGroups[ i ];
-			xr_set<size_t> thisGroupIndices;
-
-			for( size_t t = 0; t < curGroup.size(); ++t ) //for each tri
-			{
-				TriID tID = curGroup[ t ];
-				for(size_t indx = 0; indx < 3 ; ++indx)//for each vert in that tri
+				//if it is at the positions in question
+				if (theVerts[m_Triangles[tID].indices[indx]].pos == workingPosition)
 				{
-					//if it is at the positions in question
-					if( theVerts[ m_Triangles[tID].indices[indx] ].pos  == workingPosition)
+					//see if another group is already using this vert
+					if (otherGroupsIndices.find(m_Triangles[tID].indices[indx]) != otherGroupsIndices.end())
 					{
-						//see if another group is already using this vert
-						if(otherGroupsIndices.find( m_Triangles[tID].indices[indx] ) != otherGroupsIndices.end() )
-						{
-							//then we need to make a new vertex
-							Vertex ov;
-							ov = theVerts[ m_Triangles[tID].indices[indx] ];
-							ov.binormal = groupBinormalVectors[i];
-							size_t oldIndex = m_Triangles[tID].indices[indx];
-							size_t newIndex = theVerts.size();
-							theVerts.push_back(ov);
-							AppendToMapping( oldIndex , m_originalNumVerts , mappingNewToOldVert);
-							UpdateIndices(oldIndex,newIndex,curGroup);
-						}
-						else
-						{
-							//otherwise, just update it with the new vector
-							theVerts[ m_Triangles[tID].indices[indx] ].binormal = groupBinormalVectors[i];
-						}
-
-						//store that we have used this index, so other groups can check
-						thisGroupIndices.insert(m_Triangles[tID].indices[indx]);
+						//then we need to make a new vertex
+						Vertex ov;
+						ov = theVerts[m_Triangles[tID].indices[indx]];
+						ov.binormal = groupBinormalVectors[i];
+						size_t oldIndex = m_Triangles[tID].indices[indx];
+						size_t newIndex = theVerts.size();
+						theVerts.push_back(ov);
+						AppendToMapping(oldIndex, m_originalNumVerts, mappingNewToOldVert);
+						UpdateIndices(oldIndex, newIndex, curGroup);
 					}
+					else
+					{
+						//otherwise, just update it with the new vector
+						theVerts[m_Triangles[tID].indices[indx]].binormal = groupBinormalVectors[i];
+					}
+
+					//store that we have used this index, so other groups can check
+					thisGroupIndices.insert(m_Triangles[tID].indices[indx]);
 				}
-				
-			}
-			
-			for(xr_set<size_t>::iterator it = thisGroupIndices.begin(); it!= thisGroupIndices.end() ; ++it)
-			{
-				otherGroupsIndices.insert(*it);
 			}
 
 		}
+
+		for (xr_set<size_t>::iterator it = thisGroupIndices.begin(); it != thisGroupIndices.end(); ++it)
+			otherGroupsIndices.insert(*it);
+	}
 
 }
 
@@ -631,25 +630,25 @@ void MeshMender::FindNeighbors(Triangle* tri,
 
 
 bool MeshMender::TriHasEdge(const size_t& p0,
-							const size_t& p1,
-							const size_t& triA,
-							const size_t& triB,
-							const size_t& triC)
+	const size_t& p1,
+	const size_t& triA,
+	const size_t& triB,
+	const size_t& triC)
 {
-	if ( ( ( p0 == triB ) && ( p1 == triA ) ) ||
-	     ( ( p0 == triA ) && ( p1 == triB ) ) )
+	if (((p0 == triB) && (p1 == triA)) ||
+		((p0 == triA) && (p1 == triB)))
 	{
 		return true;
 	}
 
-	if ( ( ( p0 == triB ) && ( p1 == triC ) ) ||
-	     ( ( p0 == triC ) && ( p1 == triB ) ) )
+	if (((p0 == triB) && (p1 == triC)) ||
+		((p0 == triC) && (p1 == triB)))
 	{
 		return true;
 	}
 
-	if ( ( ( p0 == triC ) && ( p1 == triA ) ) ||
-	     ( ( p0 == triA ) && ( p1 == triC ) ) )
+	if (((p0 == triC) && (p1 == triA)) ||
+		((p0 == triA) && (p1 == triC)))
 	{
 		return true;
 	}
