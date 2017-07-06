@@ -107,16 +107,10 @@ IPureServer::_Recieve( const void* data, u32 data_size, u32 param )
 		return;
 	}
 
-    NET_Packet  packet; 
-    ClientID    id;
+    NET_Packet packet(data, data_size)
+    ClientID    id(param);
 
-    id.set( param );
-    packet.construct( data, data_size );
-	//DWORD currentThreadId = GetCurrentThreadId();
-	//Msg("-S- Entering to csMessages from _Receive [%d]", currentThreadId);
 	csMessage.lock();
-	//LogStackTrace(
-	//		make_string("-S- Entered to csMessages [%d]", currentThreadId).c_str());
 	//---------------------------------------
 	if( psNET_Flags.test(NETFLAG_LOG_SV_PACKETS) ) 
 	{

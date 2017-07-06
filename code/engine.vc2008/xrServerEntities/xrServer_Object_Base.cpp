@@ -324,7 +324,6 @@ BOOL CSE_Abstract::Spawn_Read				(NET_Packet	&tNetPacket)
 	if (m_wVersion > 70) {
 		u16 client_data_size	= (m_wVersion > 93) ? tNetPacket.r_u16() : tNetPacket.r_u8(); //�� ����� ���� ������ 256 ����
 		if (client_data_size > 0) {
-//			Msg					("SERVER:loading:load:%d bytes:%d:%s",client_data_size,ID,s_name_replace ? s_name_replace : "");
 			client_data.resize	(client_data_size);
 			tNetPacket.r		(&*client_data.begin(),client_data_size);
 		}
@@ -360,7 +359,7 @@ BOOL CSE_Abstract::Spawn_Read				(NET_Packet	&tNetPacket)
 	u16							size;
 	tNetPacket.r_u16			(size);	// size
 	bool b1						= (m_tClassID == CLSID_SPECTATOR);
-	bool b2						= (size > sizeof(size)) || (tNetPacket.inistream!=NULL);
+	bool b2						= (size > sizeof(size));
 	R_ASSERT3					( (b1 || b2),"cannot read object, which is not successfully saved :(",name_replace());
 	STATE_Read					(tNetPacket,size);
 	return						TRUE;
@@ -371,9 +370,6 @@ void	CSE_Abstract::load			(NET_Packet	&tNetPacket)
 	CPureServerObject::load		(tNetPacket);
 	u16 client_data_size		= (m_wVersion > 93) ? tNetPacket.r_u16() : tNetPacket.r_u8(); //�� ����� ���� ������ 256 ����
 	if (client_data_size > 0) {
-#ifdef DEBUG
-//		Msg						("SERVER:loading:load:%d bytes:%d:%s",client_data_size,ID,s_name_replace ? s_name_replace : "");
-#endif // DEBUG
 		client_data.resize		(client_data_size);
 		tNetPacket.r			(&*client_data.begin(),client_data_size);
 	}
